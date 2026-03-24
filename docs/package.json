@@ -1,0 +1,15 @@
+{
+  "name": "easepick2-docs",
+  "version": "2.0.0",
+  "description": "A modern, lightweight date picker with day, month, and year view modes",
+  "private": true,
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@mr-hope/vuepress-plugin-sitemap": "^1.28.5",
+    "vuepress": "^1.5.3"
+  }
+}
