@@ -1,6 +1,6 @@
 {
-  "name": "easepick",
-  "version": "1.2.1",
+  "name": "easepick2",
+  "version": "2.0.0",
   "private": true,
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.4",
@@ -34,8 +34,15 @@
     "packages/*"
   ],
   "author": {
-    "name": "Rinat G.",
-    "email": "easepick@jsx4.com"
+    "name": "YuaFox"
   },
-  "license": "GPL-2.0-or-later"
+  "license": "GPL-2.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YuaFox/easepick2.git"
+  },
+  "homepage": "https://github.com/YuaFox/easepick2",
+  "bugs": {
+    "url": "https://github.com/YuaFox/easepick2/issues"
+  }
 }

@@ -1,5 +1,5 @@
-import { DateTime } from '@easepick/datetime';
-import { BasePlugin, IEventDetail, IPlugin } from '@easepick/base-plugin';
+import { DateTime } from '@yuafox/easepick2-datetime';
+import { BasePlugin, IEventDetail, IPlugin } from '@yuafox/easepick2-base-plugin';
 import { ILockConfig } from './interface';
 import './index.scss';
 

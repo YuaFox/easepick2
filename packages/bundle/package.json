@@ -1,34 +1,33 @@
 {
-  "name": "@easepick/bundle",
-  "description": "easepick bundle.",
-  "version": "1.2.1",
+  "name": "@yuafox/easepick2",
+  "description": "A modern, lightweight date picker with day, month, and year view modes.",
+  "version": "2.0.0",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@easepick/core": "^1.1.0",
-    "@easepick/datetime": "^1.1.0",
-    "@easepick/base-plugin": "^1.1.0",
-    "@easepick/kbd-plugin": "^1.1.0",
-    "@easepick/lock-plugin": "^1.1.0",
-    "@easepick/preset-plugin": "^1.1.0",
-    "@easepick/range-plugin": "^1.1.0",
-    "@easepick/time-plugin": "^1.1.0",
-    "@easepick/amp-plugin": "^1.1.0"
+    "@yuafox/easepick2-core": "^2.0.0",
+    "@yuafox/easepick2-datetime": "^2.0.0",
+    "@yuafox/easepick2-base-plugin": "^2.0.0",
+    "@yuafox/easepick2-kbd-plugin": "^2.0.0",
+    "@yuafox/easepick2-lock-plugin": "^2.0.0",
+    "@yuafox/easepick2-preset-plugin": "^2.0.0",
+    "@yuafox/easepick2-range-plugin": "^2.0.0",
+    "@yuafox/easepick2-time-plugin": "^2.0.0",
+    "@yuafox/easepick2-amp-plugin": "^2.0.0"
   },
   "author": {
-    "name": "Rinat G.",
-    "email": "easepick@jsx4.com"
+    "name": "YuaFox"
   },
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/easepick/easepick.git",
+    "url": "https://github.com/YuaFox/easepick2.git",
     "directory": "packages/bundle"
   },
-  "homepage": "https://easepick.com",
+  "homepage": "https://github.com/YuaFox/easepick2",
   "bugs": {
-    "url": "https://github.com/easepick/easepick/issues"
+    "url": "https://github.com/YuaFox/easepick2/issues"
   },
   "files": [
     "dist"

@@ -24,13 +24,13 @@ const output = (name) => {
 * @license
 * Package: ${pkg.name}
 * Version: ${pkg.version}
-* https://easepick.com/
-* Copyright ${(new Date()).getFullYear()} Rinat G.
+* https://github.com/YuaFox/easepick2
+* Copyright ${(new Date()).getFullYear()} YuaFox
 * 
 * Licensed under the terms of GNU General Public License Version 2 or later. (http://www.gnu.org/licenses/gpl.html)
 */`,
       globals(id) {
-        if (/^@easepick\//.test(id)) {
+        if (/^@yuafox\/easepick2/.test(id)) {
           return 'easepick';
         }
 
@@ -61,7 +61,7 @@ const getPackageConfig = (name) => {
         }
       }),
       resolve({
-        resolveOnly: [/^@easepick\/.*$/]
+        resolveOnly: [/^@yuafox\/easepick2.*$/]
       }),
       typescript({
         tsconfig: `packages/${name}/tsconfig.json`,
@@ -75,7 +75,7 @@ const getPackageConfig = (name) => {
       ENV_PROD && terser(),
     ],
     external(id) {
-      return /^@easepick\//.test(id);
+      return /^@yuafox\/easepick2/.test(id);
     }
   };
 }
@@ -92,7 +92,7 @@ export default [
   getPackageConfig('kbd-plugin'),
   getPackageConfig('amp-plugin'),
 
-  // @easepick/bundle
+  // @yuafox/easepick2
   {
     input: 'packages/bundle/src/index.ts',
     output: output('bundle'),
@@ -103,8 +103,8 @@ export default [
         }
       }),
       resolve({
-        dedupe: ['@easepick/base-plugin'],
-        resolveOnly: [/^@easepick\/.*$/]
+        dedupe: ['@yuafox/easepick2-base-plugin'],
+        resolveOnly: [/^@yuafox\/easepick2.*$/]
       }),
       typescript({
         tsconfig: 'packages/bundle/tsconfig.json',

@@ -8,7 +8,7 @@
     "emitDeclarationOnly": true,
     "composite": true,
     "paths": {
-      "@easepick/*": [
+      "@yuafox/easepick2-*": [
         "./packages/*/src/index.ts"
       ]
     }

@@ -1,4 +1,4 @@
-import { DateTime } from '@easepick/datetime';
+import { DateTime } from '@yuafox/easepick2-datetime';
 import { Core } from './core';
 
 export interface IEventDetail {

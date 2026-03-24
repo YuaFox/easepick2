@@ -1,5 +1,5 @@
 import Calendar from './calendar';
-import { DateTime } from '@easepick/datetime';
+import { DateTime } from '@yuafox/easepick2-datetime';
 import PluginManager from './pluginManager';
 import {
   IEventDetail,

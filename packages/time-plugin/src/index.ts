@@ -1,6 +1,6 @@
-import { DateTime } from '@easepick/datetime';
-import { BasePlugin, IEventDetail, IPlugin } from '@easepick/base-plugin';
-import { RangePlugin } from '@easepick/range-plugin';
+import { DateTime } from '@yuafox/easepick2-datetime';
+import { BasePlugin, IEventDetail, IPlugin } from '@yuafox/easepick2-base-plugin';
+import { RangePlugin } from '@yuafox/easepick2-range-plugin';
 import { ITimeConfig } from './interface';
 import './index.scss';
 

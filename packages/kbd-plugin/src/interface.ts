@@ -1,4 +1,4 @@
-import { IBaseConfig } from '@easepick/base-plugin';
+import { IBaseConfig } from '@yuafox/easepick2-base-plugin';
 
 export interface IKbdPlugin extends IBaseConfig {
   unitIndex?: number;
@@ -6,7 +6,7 @@ export interface IKbdPlugin extends IBaseConfig {
   html?: string;
 }
 
-declare module '@easepick/core/dist/types' {
+declare module '@yuafox/easepick2-core/dist/types' {
   interface IKbdPlugin {
     KbdPlugin?: IKbdPlugin;
   }
