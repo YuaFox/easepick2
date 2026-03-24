@@ -33,6 +33,7 @@ export interface IPickerConfig {
     cancel?: string;
     apply?: string;
   }
+  viewMode?: 'day' | 'month' | 'year';
   plugins?: any[];
   documentClick?: boolean | (() => void);
   zIndex?: number;

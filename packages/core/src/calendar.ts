@@ -69,65 +69,127 @@ export default class Calendar {
 
   /**
    * Function for `Main` view
-   * 
-   * @param date 
+   *
+   * @param date
    */
   public getMainView(date: DateTime): void {
     const main = document.createElement('main');
     this.picker.ui.container.appendChild(main);
 
+    const viewMode = this.picker.options.viewMode || 'day';
+
     const calendars = document.createElement('div');
     calendars.className = `calendars grid-${this.picker.options.grid}`;
 
-    for (let i = 0; i < this.picker.options.calendars; i++) {
-      const month = document.createElement('div');
-      month.className = 'calendar';
-      calendars.appendChild(month);
+    if (viewMode === 'month') {
+      const calendar = document.createElement('div');
+      calendar.className = 'calendar';
+      calendars.appendChild(calendar);
 
       const calendarHeader = this.getCalendarHeaderView(date.clone());
-      month.appendChild(calendarHeader);
+      calendar.appendChild(calendarHeader);
       this.picker.trigger('view', {
         date: date.clone(),
         view: 'CalendarHeader',
-        index: i,
+        index: 0,
         target: calendarHeader,
       });
 
-      const dayNames = this.getCalendarDayNamesView();
-      month.appendChild(dayNames);
+      const monthsView = this.getCalendarMonthsView(date.clone());
+      calendar.appendChild(monthsView);
       this.picker.trigger('view', {
         date: date.clone(),
-        view: 'CalendarDayNames',
-        index: i,
-        target: dayNames,
-      });
-
-      const daysView = this.getCalendarDaysView(date.clone());
-      month.appendChild(daysView);
-      this.picker.trigger('view', {
-        date: date.clone(),
-        view: 'CalendarDays',
-        index: i,
-        target: daysView,
-      });
-
-      const calendarFooter = this.getCalendarFooterView(this.picker.options.lang, date.clone());
-      month.appendChild(calendarFooter);
-      this.picker.trigger('view', {
-        date: date.clone(),
-        view: 'CalendarFooter',
-        index: i,
-        target: calendarFooter,
+        view: 'CalendarMonths',
+        index: 0,
+        target: monthsView,
       });
 
       this.picker.trigger('view', {
         date: date.clone(),
         view: 'CalendarItem',
-        index: i,
-        target: month,
+        index: 0,
+        target: calendar,
+      });
+    } else if (viewMode === 'year') {
+      const calendar = document.createElement('div');
+      calendar.className = 'calendar';
+      calendars.appendChild(calendar);
+
+      const calendarHeader = this.getCalendarHeaderView(date.clone());
+      calendar.appendChild(calendarHeader);
+      this.picker.trigger('view', {
+        date: date.clone(),
+        view: 'CalendarHeader',
+        index: 0,
+        target: calendarHeader,
       });
 
-      date.add(1, 'month');
+      const yearsView = this.getCalendarYearsView(date.clone());
+      calendar.appendChild(yearsView);
+      this.picker.trigger('view', {
+        date: date.clone(),
+        view: 'CalendarYears',
+        index: 0,
+        target: yearsView,
+      });
+
+      this.picker.trigger('view', {
+        date: date.clone(),
+        view: 'CalendarItem',
+        index: 0,
+        target: calendar,
+      });
+    } else {
+      for (let i = 0; i < this.picker.options.calendars; i++) {
+        const month = document.createElement('div');
+        month.className = 'calendar';
+        calendars.appendChild(month);
+
+        const calendarHeader = this.getCalendarHeaderView(date.clone());
+        month.appendChild(calendarHeader);
+        this.picker.trigger('view', {
+          date: date.clone(),
+          view: 'CalendarHeader',
+          index: i,
+          target: calendarHeader,
+        });
+
+        const dayNames = this.getCalendarDayNamesView();
+        month.appendChild(dayNames);
+        this.picker.trigger('view', {
+          date: date.clone(),
+          view: 'CalendarDayNames',
+          index: i,
+          target: dayNames,
+        });
+
+        const daysView = this.getCalendarDaysView(date.clone());
+        month.appendChild(daysView);
+        this.picker.trigger('view', {
+          date: date.clone(),
+          view: 'CalendarDays',
+          index: i,
+          target: daysView,
+        });
+
+        const calendarFooter = this.getCalendarFooterView(this.picker.options.lang, date.clone());
+        month.appendChild(calendarFooter);
+        this.picker.trigger('view', {
+          date: date.clone(),
+          view: 'CalendarFooter',
+          index: i,
+          target: calendarFooter,
+        });
+
+        this.picker.trigger('view', {
+          date: date.clone(),
+          view: 'CalendarItem',
+          index: i,
+          target: month,
+        });
+
+        date.add(1, 'month');
+      }
     }
 
     main.appendChild(calendars);
@@ -165,17 +227,27 @@ export default class Calendar {
 
   /**
    * Function for `CalendarHeader` view
-   * 
-   * @param date 
+   *
+   * @param date
    * @returns HTMLElement
    */
   public getCalendarHeaderView(date: DateTime): HTMLElement {
+    const viewMode = this.picker.options.viewMode || 'day';
     const element = document.createElement('div');
     element.className = 'header';
 
     const monthName = document.createElement('div');
     monthName.className = 'month-name';
-    monthName.innerHTML = `<span>${date.toLocaleString(this.picker.options.lang, { month: 'long' })}</span> ${date.format('YYYY')}`;
+
+    if (viewMode === 'month') {
+      monthName.innerHTML = `<span>${date.format('YYYY')}</span>`;
+    } else if (viewMode === 'year') {
+      const decadeStart = Math.floor(date.getFullYear() / 10) * 10;
+      monthName.innerHTML = `<span>${decadeStart} - ${decadeStart + 9}</span>`;
+    } else {
+      monthName.innerHTML = `<span>${date.toLocaleString(this.picker.options.lang, { month: 'long' })}</span> ${date.format('YYYY')}`;
+    }
+
     element.appendChild(monthName);
 
     const prevMonth = document.createElement('button');
@@ -187,6 +259,99 @@ export default class Calendar {
     nextMonth.className = 'next-button unit';
     nextMonth.innerHTML = this.picker.options.locale.nextMonth;
     element.appendChild(nextMonth);
+
+    return element;
+  }
+
+  /**
+   * Function for `CalendarMonths` view
+   * Renders a 4x3 grid of months for the given year
+   *
+   * @param date
+   * @returns HTMLElement
+   */
+  public getCalendarMonthsView(date: DateTime): HTMLElement {
+    const element = document.createElement('div');
+    element.className = 'months-grid';
+
+    const today = new DateTime();
+
+    for (let m = 0; m < 12; m++) {
+      const monthDate = new DateTime(new Date(date.getFullYear(), m, 1));
+
+      const monthEl = document.createElement('div');
+      monthEl.className = 'month unit';
+      monthEl.innerHTML = monthDate.toLocaleString(this.picker.options.lang, { month: 'short' });
+      monthEl.dataset.time = String(monthDate.getTime());
+
+      if (monthDate.getFullYear() === today.getFullYear() && m === today.getMonth()) {
+        monthEl.classList.add('today');
+      }
+
+      if (this.picker.datePicked.length) {
+        if (this.picker.datePicked[0].isSame(monthDate, 'month')) {
+          monthEl.classList.add('selected');
+        }
+      } else if (this.picker.options.date) {
+        const optDate = new DateTime(this.picker.options.date);
+        if (optDate.isSame(monthDate, 'month')) {
+          monthEl.classList.add('selected');
+        }
+      }
+
+      element.appendChild(monthEl);
+
+      this.picker.trigger('view', { date: monthDate, view: 'CalendarMonth', target: monthEl });
+    }
+
+    return element;
+  }
+
+  /**
+   * Function for `CalendarYears` view
+   * Renders a 4x3 grid of years for the current decade
+   *
+   * @param date
+   * @returns HTMLElement
+   */
+  public getCalendarYearsView(date: DateTime): HTMLElement {
+    const element = document.createElement('div');
+    element.className = 'years-grid';
+
+    const today = new DateTime();
+    const decadeStart = Math.floor(date.getFullYear() / 10) * 10;
+
+    for (let y = decadeStart; y < decadeStart + 12; y++) {
+      const yearDate = new DateTime(new Date(y, 0, 1));
+
+      const yearEl = document.createElement('div');
+      yearEl.className = 'year unit';
+      yearEl.innerHTML = String(y);
+      yearEl.dataset.time = String(yearDate.getTime());
+
+      if (y === today.getFullYear()) {
+        yearEl.classList.add('today');
+      }
+
+      if (y < decadeStart || y > decadeStart + 9) {
+        yearEl.classList.add('outside');
+      }
+
+      if (this.picker.datePicked.length) {
+        if (this.picker.datePicked[0].getFullYear() === y) {
+          yearEl.classList.add('selected');
+        }
+      } else if (this.picker.options.date) {
+        const optDate = new DateTime(this.picker.options.date);
+        if (optDate.getFullYear() === y) {
+          yearEl.classList.add('selected');
+        }
+      }
+
+      element.appendChild(yearEl);
+
+      this.picker.trigger('view', { date: yearDate, view: 'CalendarYear', target: yearEl });
+    }
 
     return element;
   }

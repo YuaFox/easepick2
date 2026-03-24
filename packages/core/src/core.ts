@@ -33,6 +33,7 @@ export class Core {
     autoApply: true,
     header: false,
     inline: false,
+    viewMode: 'day',
     scrollToDate: true,
     locale: {
       nextMonth: '<svg width="11" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M2.748 16L0 13.333 5.333 8 0 2.667 2.748 0l7.919 8z" fill-rule="nonzero"/></svg>',
@@ -175,15 +176,32 @@ export class Core {
   }
 
   /**
-   * 
-   * @param element 
+   *
+   * @param element
    */
   public onClickHeaderButton(element: HTMLElement) {
     if (this.isCalendarHeaderButton(element)) {
-      if (element.classList.contains('next-button')) {
-        this.calendars[0].add(1, 'month');
+      const viewMode = this.options.viewMode || 'day';
+      const isNext = element.classList.contains('next-button');
+
+      if (viewMode === 'year') {
+        if (isNext) {
+          this.calendars[0].setFullYear(this.calendars[0].getFullYear() + 10);
+        } else {
+          this.calendars[0].setFullYear(this.calendars[0].getFullYear() - 10);
+        }
+      } else if (viewMode === 'month') {
+        if (isNext) {
+          this.calendars[0].setFullYear(this.calendars[0].getFullYear() + 1);
+        } else {
+          this.calendars[0].setFullYear(this.calendars[0].getFullYear() - 1);
+        }
       } else {
-        this.calendars[0].subtract(1, 'month');
+        if (isNext) {
+          this.calendars[0].add(1, 'month');
+        } else {
+          this.calendars[0].subtract(1, 'month');
+        }
       }
 
       this.renderAll(this.calendars[0]);
@@ -191,11 +209,61 @@ export class Core {
   }
 
   /**
-   * 
-   * @param element 
+   *
+   * @param element
    */
   public onClickCalendarDay(element: HTMLElement) {
     if (this.isCalendarDay(element)) {
+      const date = new DateTime(element.dataset.time);
+
+      if (this.options.autoApply) {
+        this.setDate(date);
+
+        this.trigger('select', { date: this.getDate() });
+
+        this.hide();
+      } else {
+        this.datePicked[0] = date;
+
+        this.trigger('preselect', { date: this.getDate() });
+
+        this.renderAll();
+      }
+    }
+  }
+
+  /**
+   * Handle click on a month element (viewMode: 'month')
+   *
+   * @param element
+   */
+  public onClickCalendarMonth(element: HTMLElement) {
+    if (this.isCalendarMonth(element)) {
+      const date = new DateTime(element.dataset.time);
+
+      if (this.options.autoApply) {
+        this.setDate(date);
+
+        this.trigger('select', { date: this.getDate() });
+
+        this.hide();
+      } else {
+        this.datePicked[0] = date;
+
+        this.trigger('preselect', { date: this.getDate() });
+
+        this.renderAll();
+      }
+    }
+  }
+
+  /**
+   * Handle click on a year element (viewMode: 'year')
+   *
+   * @param element
+   */
+  public onClickCalendarYear(element: HTMLElement) {
+    if (this.isCalendarYear(element)) {
       const date = new DateTime(element.dataset.time);
 
       if (this.options.autoApply) {
@@ -258,6 +326,8 @@ export class Core {
 
       this.onClickHeaderButton(element);
       this.onClickCalendarDay(element);
+      this.onClickCalendarMonth(element);
+      this.onClickCalendarYear(element);
       this.onClickApplyButton(element);
       this.onClickCancelButton(element);
     }
@@ -404,12 +474,32 @@ export class Core {
 
   /**
    * Determines if the element is day element
-   * 
-   * @param element 
+   *
+   * @param element
    * @returns Boolean
    */
   public isCalendarDay(element: HTMLElement): boolean {
     return element.classList.contains('day');
+  }
+
+  /**
+   * Determines if the element is a month element
+   *
+   * @param element
+   * @returns Boolean
+   */
+  public isCalendarMonth(element: HTMLElement): boolean {
+    return element.classList.contains('month');
+  }
+
+  /**
+   * Determines if the element is a year element
+   *
+   * @param element
+   * @returns Boolean
+   */
+  public isCalendarYear(element: HTMLElement): boolean {
+    return element.classList.contains('year');
   }
 
   /**
