@@ -3,6 +3,7 @@ const { description } = require('../../package')
 module.exports = {
   title: 'easepick2',
   description: description,
+  base: '/easepick2/',
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
