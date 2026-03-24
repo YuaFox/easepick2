@@ -1,4 +1,4 @@
-import { DateTime } from '@easepick/datetime';
+import { DateTime } from '@yuafox/easepick2-datetime';
 import { Core } from './core';
 
 export interface IEventDetail {
@@ -33,6 +33,7 @@ export interface IPickerConfig {
     cancel?: string;
     apply?: string;
   }
+  viewMode?: 'day' | 'month' | 'year';
   plugins?: any[];
   documentClick?: boolean | (() => void);
   zIndex?: number;

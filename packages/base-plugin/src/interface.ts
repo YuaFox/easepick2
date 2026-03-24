@@ -1,4 +1,4 @@
-import { DateTime } from '@easepick/datetime';
+import { DateTime } from '@yuafox/easepick2-datetime';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBaseConfig {}

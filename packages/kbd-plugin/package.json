@@ -1,26 +1,25 @@
 {
-  "name": "@easepick/kbd-plugin",
-  "description": "Plugin for easepick.",
-  "version": "1.2.1",
+  "name": "@yuafox/easepick2-kbd-plugin",
+  "description": "Keyboard plugin for easepick2.",
+  "version": "2.0.0",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@easepick/base-plugin": "^1.1.0"
+    "@yuafox/easepick2-base-plugin": "^2.0.0"
   },
   "author": {
-    "name": "Rinat G.",
-    "email": "easepick@jsx4.com"
+    "name": "YuaFox"
   },
   "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/easepick/easepick.git",
+    "url": "https://github.com/YuaFox/easepick2.git",
     "directory": "packages/kbd-plugin"
   },
-  "homepage": "https://easepick.com",
+  "homepage": "https://github.com/YuaFox/easepick2",
   "bugs": {
-    "url": "https://github.com/easepick/easepick/issues"
+    "url": "https://github.com/YuaFox/easepick2/issues"
   },
   "files": [
     "dist"

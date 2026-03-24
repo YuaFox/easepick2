@@ -1,0 +1,22 @@
+<template>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Chrome</th>
+          <th>Firefox</th>
+          <th>Safari</th>
+          <th>Edge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>53+</td>
+          <td>63+</td>
+          <td>10+</td>
+          <td>79+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

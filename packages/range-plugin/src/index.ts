@@ -1,5 +1,5 @@
-import { DateTime } from '@easepick/datetime';
-import { BasePlugin, IEventDetail, IPlugin } from '@easepick/base-plugin';
+import { DateTime } from '@yuafox/easepick2-datetime';
+import { BasePlugin, IEventDetail, IPlugin } from '@yuafox/easepick2-base-plugin';
 import { IRangeConfig } from './interface';
 import './index.scss';
 
@@ -18,6 +18,8 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     onMouseEnter: this.onMouseEnter.bind(this),
     onMouseLeave: this.onMouseLeave.bind(this),
     onClickCalendarDay: this.onClickCalendarDay.bind(this),
+    onClickCalendarMonth: this.onClickCalendarMonth.bind(this),
+    onClickCalendarYear: this.onClickCalendarYear.bind(this),
     onClickApplyButton: this.onClickApplyButton.bind(this),
     parseValues: this.parseValues.bind(this),
     updateValues: this.updateValues.bind(this),
@@ -71,6 +73,9 @@ export class RangePlugin extends BasePlugin implements IPlugin {
     this.binds['_onClickCalendarDay'] = this.picker.onClickCalendarDay;
     this.binds['_onClickApplyButton'] = this.picker.onClickApplyButton;
 
+    this.binds['_onClickCalendarMonth'] = this.picker.onClickCalendarMonth;
+    this.binds['_onClickCalendarYear'] = this.picker.onClickCalendarYear;
+
     Object.defineProperties(this.picker, {
       setStartDate: {
         configurable: true,
@@ -107,6 +112,14 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       onClickCalendarDay: {
         configurable: true,
         value: this.binds.onClickCalendarDay,
+      },
+      onClickCalendarMonth: {
+        configurable: true,
+        value: this.binds.onClickCalendarMonth,
+      },
+      onClickCalendarYear: {
+        configurable: true,
+        value: this.binds.onClickCalendarYear,
       },
       onClickApplyButton: {
         configurable: true,
@@ -189,6 +202,14 @@ export class RangePlugin extends BasePlugin implements IPlugin {
       onClickCalendarDay: {
         configurable: true,
         value: this.binds['_onClickCalendarDay'],
+      },
+      onClickCalendarMonth: {
+        configurable: true,
+        value: this.binds['_onClickCalendarMonth'],
+      },
+      onClickCalendarYear: {
+        configurable: true,
+        value: this.binds['_onClickCalendarYear'],
       },
       onClickApplyButton: {
         configurable: true,
@@ -357,6 +378,54 @@ export class RangePlugin extends BasePlugin implements IPlugin {
         }
 
         if (date.isBetween(start, end)) {
+          target.classList.add('in-range');
+        }
+      }
+    }
+
+    if (view === 'CalendarMonth') {
+      const date = new DateTime(target.dataset.time);
+      const datePicked = this.picker.datePicked;
+      const start = datePicked.length ? this.picker.datePicked[0] : this.getStartDate();
+      const end = datePicked.length === 1 ? null : (datePicked.length >= 2 ? this.picker.datePicked[1] : this.getEndDate());
+
+      if (start && start.isSame(date, 'month')) {
+        target.classList.add('start');
+        target.classList.add('selected');
+      }
+
+      if (start && end) {
+        if (end.isSame(date, 'month')) {
+          target.classList.add('end');
+          target.classList.add('selected');
+        }
+
+        const startMonth = new DateTime(new Date(start.getFullYear(), start.getMonth(), 1));
+        const endMonth = new DateTime(new Date(end.getFullYear(), end.getMonth(), 1));
+        if (date.getTime() > startMonth.getTime() && date.getTime() < endMonth.getTime()) {
+          target.classList.add('in-range');
+        }
+      }
+    }
+
+    if (view === 'CalendarYear') {
+      const date = new DateTime(target.dataset.time);
+      const datePicked = this.picker.datePicked;
+      const start = datePicked.length ? this.picker.datePicked[0] : this.getStartDate();
+      const end = datePicked.length === 1 ? null : (datePicked.length >= 2 ? this.picker.datePicked[1] : this.getEndDate());
+
+      if (start && date.getFullYear() === start.getFullYear()) {
+        target.classList.add('start');
+        target.classList.add('selected');
+      }
+
+      if (start && end) {
+        if (date.getFullYear() === end.getFullYear()) {
+          target.classList.add('end');
+          target.classList.add('selected');
+        }
+
+        if (date.getFullYear() > start.getFullYear() && date.getFullYear() < end.getFullYear()) {
           target.classList.add('in-range');
         }
       }
@@ -594,6 +663,56 @@ export class RangePlugin extends BasePlugin implements IPlugin {
 
           this.picker.renderAll();
         }
+      }
+    }
+  }
+
+  private onClickCalendarMonth(element: HTMLElement) {
+    if (this.picker.isCalendarMonth(element)) {
+      this.handleRangeClick(element, 'month');
+    }
+  }
+
+  private onClickCalendarYear(element: HTMLElement) {
+    if (this.picker.isCalendarYear(element)) {
+      this.handleRangeClick(element, 'year');
+    }
+  }
+
+  private handleRangeClick(element: HTMLElement, unit: string) {
+    if (this.picker.datePicked.length === 2) {
+      this.picker.datePicked.length = 0;
+    }
+
+    const date = new DateTime(element.dataset.time);
+    this.picker.datePicked[this.picker.datePicked.length] = date;
+
+    if (this.picker.datePicked.length === 2 && this.picker.datePicked[0].isAfter(this.picker.datePicked[1], unit)) {
+      const tempDate = this.picker.datePicked[1].clone();
+      this.picker.datePicked[1] = this.picker.datePicked[0].clone();
+      this.picker.datePicked[0] = tempDate.clone();
+    }
+
+    if (this.picker.datePicked.length === 1 || !this.picker.options.autoApply) {
+      this.picker.trigger('preselect', {
+        start: this.picker.datePicked[0] instanceof Date ? this.picker.datePicked[0].clone() : null,
+        end: this.picker.datePicked[1] instanceof Date ? this.picker.datePicked[1].clone() : null,
+      });
+    }
+
+    if (this.picker.datePicked.length === 1) {
+      this.picker.renderAll();
+    }
+
+    if (this.picker.datePicked.length === 2) {
+      if (this.picker.options.autoApply) {
+        this.setDateRange(this.picker.datePicked[0], this.picker.datePicked[1]);
+
+        this.picker.trigger('select', { start: this.picker.getStartDate(), end: this.picker.getEndDate() });
+
+        this.picker.hide();
+      } else {
+        this.picker.renderAll();
       }
     }
   }

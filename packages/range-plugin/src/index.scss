@@ -154,5 +154,33 @@
         }
       }
     }
+
+    > .months-grid > .month,
+    > .years-grid > .year {
+      &.in-range {
+        border-radius: 0;
+        background-color: var(--color-bg-inrange);
+      }
+
+      &.start,
+      &.end {
+        background-color: var(--color-fg-primary);
+        color: var(--color-fg-selected);
+      }
+
+      &.start {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &.end {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      &.start.end {
+        border-radius: var(--border-radius);
+      }
+    }
   }
 }

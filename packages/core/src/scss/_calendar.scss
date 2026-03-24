@@ -145,6 +145,48 @@
     }
   }
 
+  > .months-grid,
+  > .years-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 2px;
+    column-gap: 2px;
+
+    > .month,
+    > .year {
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      font-size: 13px;
+
+      &:hover {
+        border: 1px solid var(--color-fg-primary);
+        color: var(--color-fg-primary);
+      }
+
+      &.today {
+        color: var(--color-fg-accent);
+      }
+
+      &.selected {
+        background-color: var(--color-fg-primary);
+        color: var(--color-fg-selected);
+      }
+
+      &.outside {
+        color: var(--color-fg-muted);
+      }
+    }
+  }
+
+  > .years-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   > .footer {
   }
 }

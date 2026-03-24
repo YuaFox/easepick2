@@ -1,5 +1,5 @@
-import { DateTime } from '@easepick/datetime';
-import { BasePlugin, IEventDetail, IPlugin } from '@easepick/base-plugin';
+import { DateTime } from '@yuafox/easepick2-datetime';
+import { BasePlugin, IEventDetail, IPlugin } from '@yuafox/easepick2-base-plugin';
 import { ILockConfig } from './interface';
 import './index.scss';
 
@@ -100,6 +100,34 @@ export class LockPlugin extends BasePlugin implements IPlugin {
       if (this.options.maxDate instanceof DateTime) {
         if (date.isSameOrAfter(this.options.maxDate, 'month')) {
           target.classList.add('no-next-month');
+        }
+      }
+    }
+
+    if (view === 'CalendarMonth') {
+      if (this.options.minDate instanceof DateTime) {
+        const minMonth = new DateTime(new Date(this.options.minDate.getFullYear(), this.options.minDate.getMonth(), 1));
+        if (date.getTime() < minMonth.getTime()) {
+          target.classList.add('locked');
+        }
+      }
+      if (this.options.maxDate instanceof DateTime) {
+        const maxMonth = new DateTime(new Date(this.options.maxDate.getFullYear(), this.options.maxDate.getMonth(), 1));
+        if (date.getTime() > maxMonth.getTime()) {
+          target.classList.add('locked');
+        }
+      }
+    }
+
+    if (view === 'CalendarYear') {
+      if (this.options.minDate instanceof DateTime) {
+        if (date.getFullYear() < this.options.minDate.getFullYear()) {
+          target.classList.add('locked');
+        }
+      }
+      if (this.options.maxDate instanceof DateTime) {
+        if (date.getFullYear() > this.options.maxDate.getFullYear()) {
+          target.classList.add('locked');
         }
       }
     }
