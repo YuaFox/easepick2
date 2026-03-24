@@ -27,62 +27,29 @@ jobs:
       - name: Build
         run: npm run prod
 
-      - name: Publish @yuafox/easepick2-datetime
-        run: npm publish --access public
-        working-directory: packages/datetime
+      - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          publish_if_new() {
+            local dir=$1
+            local name=$(node -p "require('./$dir/package.json').name")
+            local version=$(node -p "require('./$dir/package.json').version")
+            if npm view "$name@$version" version 2>/dev/null; then
+              echo "⏭ $name@$version already published, skipping"
+            else
+              echo "📦 Publishing $name@$version"
+              npm publish --access public -w "$dir"
+            fi
+          }
 
-      - name: Publish @yuafox/easepick2-core
-        run: npm publish --access public
-        working-directory: packages/core
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-base-plugin
-        run: npm publish --access public
-        working-directory: packages/base-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-lock-plugin
-        run: npm publish --access public
-        working-directory: packages/lock-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-range-plugin
-        run: npm publish --access public
-        working-directory: packages/range-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-preset-plugin
-        run: npm publish --access public
-        working-directory: packages/preset-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-time-plugin
-        run: npm publish --access public
-        working-directory: packages/time-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-kbd-plugin
-        run: npm publish --access public
-        working-directory: packages/kbd-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2-amp-plugin
-        run: npm publish --access public
-        working-directory: packages/amp-plugin
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish @yuafox/easepick2 (bundle)
-        run: npm publish --access public
-        working-directory: packages/bundle
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          publish_if_new packages/datetime
+          publish_if_new packages/core
+          publish_if_new packages/base-plugin
+          publish_if_new packages/lock-plugin
+          publish_if_new packages/range-plugin
+          publish_if_new packages/preset-plugin
+          publish_if_new packages/time-plugin
+          publish_if_new packages/kbd-plugin
+          publish_if_new packages/amp-plugin
+          publish_if_new packages/bundle
