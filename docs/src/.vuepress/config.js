@@ -24,10 +24,6 @@ module.exports = {
         text: 'Guide',
         link: '/guide/',
       },
-      {
-        text: 'GitHub',
-        link: 'https://github.com/YuaFox/easepick2',
-      },
     ],
     sidebar: [
       {

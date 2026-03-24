@@ -3,8 +3,6 @@ name: Deploy Docs to GitHub Pages
 on:
   push:
     branches: [master]
-    paths:
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -28,7 +26,19 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install main dependencies
+        run: npm install
+
+      - name: Build easepick2
+        run: npm run prod
+
+      - name: Copy dist files to docs public
+        run: |
+          mkdir -p docs/src/.vuepress/public/lib
+          cp packages/bundle/dist/index.umd.js docs/src/.vuepress/public/lib/easepick2.js
+          cp packages/bundle/dist/index.css docs/src/.vuepress/public/lib/easepick2.css
+
+      - name: Install docs dependencies
         working-directory: docs
         run: npm install
 

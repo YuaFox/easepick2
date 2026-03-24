@@ -17,13 +17,12 @@ export default {
     },
   },
   data() {
-    const ver = JSON.parse(localStorage.getItem("version")) || { v: "2.0.0" };
     return {
       id: `id-${new Date().getTime()}`,
       picker: null,
       default_options: {
         css: [
-          `https://cdn.jsdelivr.net/npm/@yuafox/easepick2@${ver.v}/dist/index.css`,
+          '/easepick2/lib/easepick2.css',
         ],
       },
     };
