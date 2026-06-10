@@ -7,7 +7,15 @@ module.exports = {
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['meta', { name: 'keywords', content: 'easepick, easepick2, easepick alternative, easepick fork, maintained easepick, date picker, datepicker, daterangepicker, month picker, year picker, calendar' }],
+    ['meta', { property: 'og:title', content: 'easepick2 — A Maintained Alternative to easepick' }],
+    ['meta', { property: 'og:description', content: description }],
+    ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:image', content: '/images/og_image.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'easepick2 — A Maintained Alternative to easepick' }],
+    ['meta', { name: 'twitter:description', content: description }],
+    ['meta', { name: 'twitter:image', content: '/images/og_image.png' }],
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }],

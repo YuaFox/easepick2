@@ -1,8 +1,8 @@
 # easepick2
 
-A modern, lightweight date picker with day, month, and year view modes. Fork of the original [easepick](https://github.com/easepick/easepick).
+easepick2 is an actively maintained alternative to [easepick](https://github.com/easepick/easepick) — a modern, lightweight date picker with day, month, and year view modes.
 
-Originally created by Rinat G. (easepick). Forked and maintained by [YuaFox](https://github.com/YuaFox).
+Originally created by Rinat G. (easepick). Forked and actively maintained by [YuaFox](https://github.com/YuaFox).
 
 ## Installation
 
@@ -91,4 +91,4 @@ const picker = new easepick.create({
 
 ## License
 
-GPL-2.0-or-later
+MIT
