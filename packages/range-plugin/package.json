@@ -1,7 +1,12 @@
 {
   "name": "@yuafox/easepick2-range-plugin",
   "description": "Range plugin for easepick2.",
-  "version": "2.0.0",
+  "keywords": [
+    "easepick",
+    "easepick alternative",
+    "date picker"
+  ],
+  "version": "2.0.1",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -11,7 +16,7 @@
   "author": {
     "name": "YuaFox"
   },
-  "license": "GPL-2.0-or-later",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/YuaFox/easepick2.git",
