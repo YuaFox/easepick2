@@ -1,6 +1,6 @@
 {
   "name": "easepick2-docs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "easepick2 is an actively maintained alternative to easepick — a modern, lightweight date picker with day, month, and year view modes",
   "private": true,
   "scripts": {

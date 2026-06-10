@@ -1,7 +1,7 @@
 {
   "name": "@yuafox/easepick2",
   "description": "An actively maintained alternative to easepick. A modern, lightweight date picker with day, month, and year view modes.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "keywords": [
     "easepick",
     "easepick alternative",
