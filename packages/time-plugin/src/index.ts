@@ -240,6 +240,12 @@ export class TimePlugin extends BasePlugin implements IPlugin {
       if (this.picker.options.autoApply) {
         this.timePicked[name] = date;
         this.picker.updateValues();
+        
+        if (this.rangePlugin) {
+          this.picker.trigger('select', { start: this.getStartDate(), end: this.getEndDate() });
+        } else {
+          this.picker.trigger('select', { date: this.getDate() });
+        }
       } else {
         this.timePrePicked[name] = date;
 
