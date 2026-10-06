@@ -5,6 +5,10 @@ import { ITimeConfig } from './interface';
 import './index.scss';
 
 export class TimePlugin extends BasePlugin implements IPlugin {
+  // Attach after other plugins (e.g. RangePlugin) so the time-aware
+  // getDate/getStartDate/getEndDate overrides are not replaced
+  public priority = -1;
+
   public options: ITimeConfig = {
     native: false,
     seconds: false,
