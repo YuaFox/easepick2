@@ -177,6 +177,7 @@ export class TimePlugin extends BasePlugin implements IPlugin {
       if (this.picker.options.autoApply) {
         this.timePicked[target.name] = date;
         this.picker.updateValues();
+        this.triggerSelect();
       } else {
         this.timePrePicked[target.name] = date;
       }
@@ -240,6 +241,7 @@ export class TimePlugin extends BasePlugin implements IPlugin {
       if (this.picker.options.autoApply) {
         this.timePicked[name] = date;
         this.picker.updateValues();
+        this.triggerSelect();
       } else {
         this.timePrePicked[name] = date;
 
@@ -257,6 +259,27 @@ export class TimePlugin extends BasePlugin implements IPlugin {
             applyButton.disabled = false;
           }
         }
+      }
+    }
+  }
+
+  /**
+   * With `autoApply` enabled a time change is applied immediately,
+   * so emit `select` like a date pick does (only when a date is already set)
+   */
+  private triggerSelect() {
+    if (this.rangePlugin) {
+      const start = this.picker.getStartDate();
+      const end = this.picker.getEndDate();
+
+      if (start instanceof Date || end instanceof Date) {
+        this.picker.trigger('select', { start, end });
+      }
+    } else {
+      const date = this.picker.getDate();
+
+      if (date instanceof Date) {
+        this.picker.trigger('select', { date });
       }
     }
   }
